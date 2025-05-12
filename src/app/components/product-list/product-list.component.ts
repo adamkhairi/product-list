@@ -9,6 +9,12 @@ import {CommonModule} from '@angular/common';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
+import {MatIconModule} from '@angular/material/icon';
+
+interface SortOption {
+  value: string;
+  label: string;
+}
 
 @Component({
   selector: "app-product-list",
@@ -19,7 +25,8 @@ import {MatInputModule} from '@angular/material/input';
     MatProgressSpinnerModule,
     MatInputModule,
     MatSelectModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatIconModule
   ],
   templateUrl: "./product-list.component.html",
   styleUrl: "./product-list.component.css",
@@ -29,8 +36,16 @@ export class ProductListComponent implements OnInit, OnDestroy {
   filteredProducts: Product[] = [];
   isLoading: boolean = true;
   searchTerm: string = "";
-  sortOrder: string = "asc";
+  sortOrder: string = "nameAsc";
   errorMessage: string | null = null;
+  
+  sortOptions: SortOption[] = [
+    { value: 'nameAsc', label: 'Name (A-Z)' },
+    { value: 'nameDesc', label: 'Name (Z-A)' },
+    { value: 'priceAsc', label: 'Price (Low to High)' },
+    { value: 'priceDesc', label: 'Price (High to Low)' },
+    { value: 'ratingDesc', label: 'Top Rated' },
+  ];
 
   private destroy$ = new Subject<void>();
 
@@ -57,18 +72,40 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   filterProducts(): void {
-    const term = this.searchTerm.toLowerCase();
-    this.filteredProducts = this.products.filter((product) =>
-      product.title.toLowerCase().includes(term),
-    );
+    const term = this.searchTerm.toLowerCase().trim();
+    
+    if (!term) {
+      this.filteredProducts = [...this.products];
+    } else {
+      this.filteredProducts = this.products.filter((product) => 
+        product.title.toLowerCase().includes(term) ||
+        product.description.toLowerCase().includes(term) ||
+        product.category.toLowerCase().includes(term) ||
+        (product.brand?.toLowerCase().includes(term) || false)
+      );
+    }
+    
     this.sortProducts();
   }
 
   sortProducts(): void {
-    this.filteredProducts.sort((a, b) => {
-      const comparison = a.title.localeCompare(b.title);
-      return this.sortOrder === "asc" ? comparison : -comparison;
-    });
+    switch (this.sortOrder) {
+      case 'nameAsc':
+        this.filteredProducts.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case 'nameDesc':
+        this.filteredProducts.sort((a, b) => b.title.localeCompare(a.title));
+        break;
+      case 'priceAsc':
+        this.filteredProducts.sort((a, b) => a.price - b.price);
+        break;
+      case 'priceDesc':
+        this.filteredProducts.sort((a, b) => b.price - a.price);
+        break;
+      case 'ratingDesc':
+        this.filteredProducts.sort((a, b) => b.rating - a.rating);
+        break;
+    }
   }
 
   ngOnDestroy(): void {

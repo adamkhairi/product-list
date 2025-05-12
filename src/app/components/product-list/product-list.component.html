@@ -1,51 +1,76 @@
 @if (isLoading) {
-  <mat-spinner style="margin: 20px auto"></mat-spinner>
-
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
 } @else if (errorMessage) {
-  <div style="color: red; text-align: center">
+  <div class="error-message">
     {{ errorMessage }}
   </div>
 } @else {
-  <div>
-    <div style="padding: 20px">
-      <mat-form-field appearance="fill" style="margin-right: 20px">
-        <mat-label>Search by name</mat-label>
+  <div class="container">
+    <div class="header">
+      <h1>Product Catalog</h1>
+      @if (filteredProducts.length > 0) {
+        <div class="product-count">
+          Showing {{ filteredProducts.length }} of {{ products.length }} products
+        </div>
+      }
+    </div>
+
+    <div class="search-container">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search products</mat-label>
         <input
           matInput
           [(ngModel)]="searchTerm"
           (ngModelChange)="filterProducts()"
+          placeholder="Enter product name"
         />
+        <mat-icon matPrefix>search</mat-icon>
       </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Sort</mat-label>
+      <mat-form-field appearance="outline" class="sort-field">
+        <mat-label>Sort by</mat-label>
         <mat-select [(ngModel)]="sortOrder" (ngModelChange)="sortProducts()">
-          <mat-option value="asc">A-Z</mat-option>
-          <mat-option value="desc">Z-A</mat-option>
+          @for (option of sortOptions; track option.value) {
+            <mat-option [value]="option.value">{{ option.label }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
     </div>
+
     @if (filteredProducts.length > 0) {
-      <div style="display: flex; flex-wrap: wrap; padding: 20px">
-        <div *ngFor="let product of filteredProducts">
-          <mat-card style="width: 200px; margin: 10px">
-            <img
-              mat-card-image
-              [src]="product.thumbnail"
-              [alt]="product.title"
-              style="height: 150px; object-fit: cover"
-            />
-            <mat-card-title style="font-size: 16px">
-              {{ product.title }}
-            </mat-card-title>
-            <mat-card-content>
-              <p>Price: {{ product.price | currency }}</p>
-              <p>Rating: {{ product.rating }}/5</p>
-            </mat-card-content>
+      <div class="products-grid">
+        @for (product of filteredProducts; track product.id) {
+          <mat-card class="product-card">
+            <div class="product-image-container">
+              <img 
+                class="product-image"
+                [src]="product.thumbnail" 
+                [alt]="product.title"
+              />
+              @if (product.discountPercentage) {
+                <div class="discount-badge">
+                  -{{ product.discountPercentage | number: '1.0-0' }}%
+                </div>
+              }
+            </div>
+            <div class="product-content">
+              <div class="product-title">{{ product.title }}</div>
+              <div class="product-price">{{ product.price | currency }}</div>
+              <div class="product-category">{{ product.category }}</div>
+              <div class="product-meta">
+                <div class="product-rating">
+                  <mat-icon [style.color]="'gold'">star</mat-icon>
+                  {{ product.rating | number: '1.1-1' }}
+                </div>
+                <div>Stock: {{ product.stock }}</div>
+              </div>
+            </div>
           </mat-card>
-        </div>
+        }
       </div>
     } @else {
-      <p style="text-align: center">No products found.</p>
+      <div class="no-products">No products match your search criteria.</div>
     }
   </div>
 }
