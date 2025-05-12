@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Subject, takeUntil } from "rxjs";
-import { Product } from "../../models/Product";
-import { ProductService } from "../../services/product.service";
+import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Subject, takeUntil} from "rxjs";
+import {Product} from "../../models/Product";
+import {ProductService} from "../../services/product.service";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {FormsModule} from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
@@ -38,18 +38,19 @@ export class ProductListComponent implements OnInit, OnDestroy {
   searchTerm: string = "";
   sortOrder: string = "nameAsc";
   errorMessage: string | null = null;
-  
+
   sortOptions: SortOption[] = [
-    { value: 'nameAsc', label: 'Name (A-Z)' },
-    { value: 'nameDesc', label: 'Name (Z-A)' },
-    { value: 'priceAsc', label: 'Price (Low to High)' },
-    { value: 'priceDesc', label: 'Price (High to Low)' },
-    { value: 'ratingDesc', label: 'Top Rated' },
+    {value: 'nameAsc', label: 'Name (A-Z)'},
+    {value: 'nameDesc', label: 'Name (Z-A)'},
+    {value: 'priceAsc', label: 'Price (Low to High)'},
+    {value: 'priceDesc', label: 'Price (High to Low)'},
+    {value: 'ratingDesc', label: 'Top Rated'},
   ];
 
   private destroy$ = new Subject<void>();
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService) {
+  }
 
   ngOnInit(): void {
     this.productService
@@ -73,18 +74,18 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   filterProducts(): void {
     const term = this.searchTerm.toLowerCase().trim();
-    
+
     if (!term) {
       this.filteredProducts = [...this.products];
     } else {
-      this.filteredProducts = this.products.filter((product) => 
+      this.filteredProducts = this.products.filter((product) =>
         product.title.toLowerCase().includes(term) ||
         product.description.toLowerCase().includes(term) ||
         product.category.toLowerCase().includes(term) ||
         (product.brand?.toLowerCase().includes(term) || false)
       );
     }
-    
+
     this.sortProducts();
   }
 

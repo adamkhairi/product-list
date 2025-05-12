@@ -1,19 +1,19 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { of, throwError } from 'rxjs';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {FormsModule} from '@angular/forms';
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSelectModule} from '@angular/material/select';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {of, throwError} from 'rxjs';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
 
-import { ProductListComponent } from './product-list.component';
-import { ProductService } from '../../services/product.service';
-import { CommonModule } from '@angular/common';
+import {ProductListComponent} from './product-list.component';
+import {ProductService} from '../../services/product.service';
+import {CommonModule} from '@angular/common';
 
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
@@ -21,10 +21,10 @@ describe('ProductListComponent', () => {
   let productServiceSpy: jasmine.SpyObj<ProductService>;
 
   const mockProducts = [
-    { 
-      id: 1, 
-      title: 'iPhone 9', 
-      price: 549, 
+    {
+      id: 1,
+      title: 'iPhone 9',
+      price: 549,
       description: 'An apple mobile which is nothing like apple',
       category: 'smartphones',
       thumbnail: 'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
@@ -77,7 +77,7 @@ describe('ProductListComponent', () => {
         NoopAnimationsModule
       ],
       providers: [
-        { provide: ProductService, useValue: spy },
+        {provide: ProductService, useValue: spy},
         provideHttpClient(),
         provideHttpClientTesting()
       ]
@@ -100,10 +100,10 @@ describe('ProductListComponent', () => {
   describe('ngOnInit', () => {
     it('should load products successfully', fakeAsync(() => {
       productServiceSpy.getProducts.and.returnValue(of(mockProducts));
-      
+
       fixture.detectChanges(); // Triggers ngOnInit
       tick(); // Wait for async operations
-      
+
       expect(component.products.length).toBe(3);
       expect(component.filteredProducts.length).toBe(3);
       expect(component.isLoading).toBeFalse();
@@ -113,10 +113,10 @@ describe('ProductListComponent', () => {
     it('should handle API errors', fakeAsync(() => {
       const errorResponse = new Error('API error');
       productServiceSpy.getProducts.and.returnValue(throwError(() => errorResponse));
-      
+
       fixture.detectChanges(); // Triggers ngOnInit
       tick(); // Wait for async operations
-      
+
       expect(component.isLoading).toBeFalse();
       expect(component.errorMessage).toBe('Failed to load products. Please try again later.');
     }));

@@ -41,32 +41,34 @@
     @if (filteredProducts.length > 0) {
       <div class="products-grid">
         @for (product of filteredProducts; track product.id) {
-          <mat-card class="product-card">
-            <div class="product-image-container">
-              <img 
-                class="product-image"
-                [src]="product.thumbnail" 
-                [alt]="product.title"
-              />
-              @if (product.discountPercentage) {
-                <div class="discount-badge">
-                  -{{ product.discountPercentage | number: '1.0-0' }}%
-                </div>
-              }
-            </div>
-            <div class="product-content">
-              <div class="product-title">{{ product.title }}</div>
-              <div class="product-price">{{ product.price | currency }}</div>
-              <div class="product-category">{{ product.category }}</div>
-              <div class="product-meta">
-                <div class="product-rating">
-                  <mat-icon [style.color]="'gold'">star</mat-icon>
-                  {{ product.rating | number: '1.1-1' }}
-                </div>
-                <div>Stock: {{ product.stock }}</div>
+          <div class="product-card-wrapper">
+            <mat-card class="product-card">
+              <div class="product-image-container">
+                <img
+                  class="product-image"
+                  [src]="product.thumbnail"
+                  [alt]="product.title"
+                />
+                @if (product.discountPercentage) {
+                  <div class="discount-badge">
+                    -{{ product.discountPercentage | number: '1.0-0' }}%
+                  </div>
+                }
               </div>
-            </div>
-          </mat-card>
+              <div class="product-content">
+                <div class="product-title">{{ product.title }}</div>
+                <div class="product-price">{{ product.price | currency }}</div>
+                <div class="product-category">{{ product.category }}</div>
+                <div class="product-meta">
+                  <div class="product-rating">
+                    <mat-icon [style.color]="'gold'">star</mat-icon>
+                    {{ product.rating | number: '1.1-1' }}
+                  </div>
+                  <div>Stock: {{ product.stock }}</div>
+                </div>
+              </div>
+            </mat-card>
+          </div>
         }
       </div>
     } @else {

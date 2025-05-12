@@ -1,59 +1,80 @@
-# ProductList
+# Product List Application
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.11.
+A simple Angular application that displays a product list with search and sort features.
+## Features
 
-## Development server
+- Display products in a responsive flexbox layout
+- Search products by name, description, category or brand
+- Sort products by name (A-Z, Z-A), price (low to high, high to low) and rating
 
-To start a local development server, run:
+## Screenshots
 
-```bash
+![Application Screenshot](./Screenshot%202025-05-12%20at%2020-41-55%20ProductList.png)
+
+## Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/adamkhairi/product-list
+   cd product-list
+   ```
+
+2. Install dependencies:
+   ```
+   npm install
+   ```
+
+## Run the Application
+
+Start the development server:
+
+```
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The application will be available at `http://localhost:4200/`.
 
-## Code scaffolding
+## Run Tests
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+To run the unit tests:
 
-```bash
-ng generate component component-name
 ```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
 ng test
 ```
 
-## Running end-to-end tests
+## Code Structure
 
-For end-to-end (e2e) testing, run:
+### Components
+- **ProductListComponent**: Main component that displays the product grid with search and sort functionality
 
-```bash
-ng e2e
+### Services
+- **ProductService**: Handles API communication to fetch product data
+
+### Models
+- **Product**: Interface that defines the structure of product data
+
+## API Integration
+
+This application communicates with the dummy JSON API:
+
+- Base URL: `https://dummyjson.com/`
+- Products endpoint: `products`
+
+## Project Structure
+
 ```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+src/
+├── app/
+│   ├── components/
+│   │   └── product-list/
+│   │       ├── product-list.component.ts
+│   │       ├── product-list.component.html
+│   │       └── product-list.component.css
+│   ├── models/
+│   │   └── Product.ts
+│   └── services/
+│       └── product.service.ts
+├── environments/
+│   └── environment.ts
+└── assets/
+```

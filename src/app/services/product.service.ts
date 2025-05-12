@@ -1,8 +1,8 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable, map } from "rxjs";
-import { Product } from "../models/Product";
-import { environment } from "../../environments/environment";
+import {HttpClient} from "@angular/common/http";
+import {Injectable} from "@angular/core";
+import {map, Observable} from "rxjs";
+import {Product} from "../models/Product";
+import {environment} from "../../environments/environment";
 
 interface ProductsResponse {
   products: Product[];
@@ -17,7 +17,8 @@ interface ProductsResponse {
 export class ProductService {
   private apiUrl = environment.apiUrl + "products";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getProducts(): Observable<Product[]> {
     return this.http.get<ProductsResponse>(this.apiUrl).pipe(

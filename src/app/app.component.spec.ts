@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-import { provideHttpClient } from '@angular/common/http';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ProductListComponent } from './components/product-list/product-list.component';
+import {TestBed} from '@angular/core/testing';
+import {AppComponent} from './app.component';
+import {provideHttpClient} from '@angular/common/http';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {ProductListComponent} from './components/product-list/product-list.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -12,7 +12,7 @@ describe('AppComponent', () => {
         NoopAnimationsModule
       ],
       providers: [
-        { provide: ProductListComponent, useValue: {} },
+        {provide: ProductListComponent, useValue: {}},
         provideHttpClient()
       ]
     }).compileComponents();

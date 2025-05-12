@@ -1,11 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpTestingController } from '@angular/common/http/testing';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import {TestBed} from '@angular/core/testing';
+import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing';
+import {provideHttpClient} from '@angular/common/http';
 
-import { ProductService } from './product.service';
-import { environment } from '../../environments/environment';
-import { Product } from '../models/Product';
+import {ProductService} from './product.service';
+import {environment} from '../../environments/environment';
+import {Product} from '../models/Product';
 
 describe('ProductService', () => {
   let service: ProductService;
@@ -19,7 +18,7 @@ describe('ProductService', () => {
         provideHttpClientTesting()
       ]
     });
-    
+
     service = TestBed.inject(ProductService);
     httpMock = TestBed.inject(HttpTestingController);
   });
@@ -36,10 +35,10 @@ describe('ProductService', () => {
     it('should fetch products and transform the response correctly', () => {
       const mockProducts = {
         products: [
-          { 
-            id: 1, 
-            title: 'iPhone 9', 
-            price: 549, 
+          {
+            id: 1,
+            title: 'iPhone 9',
+            price: 549,
             description: 'An apple mobile which is nothing like apple',
             category: 'smartphones',
             thumbnail: 'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
@@ -74,9 +73,9 @@ describe('ProductService', () => {
 
       const req = httpMock.expectOne(`${environment.apiUrl}products`);
       expect(req.request.method).toBe('GET');
-      
+
       req.flush(mockProducts);
-      
+
       expect(actualProducts.length).toBe(2);
       expect(actualProducts).toEqual(mockProducts.products);
       expect(actualProducts[0].id).toBe(1);
@@ -94,9 +93,9 @@ describe('ProductService', () => {
       });
 
       const req = httpMock.expectOne(`${environment.apiUrl}products`);
-      
-      req.flush('Not Found', { status: 404, statusText: 'Not Found' });
-      
+
+      req.flush('Not Found', {status: 404, statusText: 'Not Found'});
+
       expect(actualError).not.toBeNull();
       expect(actualError.status).toBe(404);
       expect(actualError.statusText).toBe('Not Found');
