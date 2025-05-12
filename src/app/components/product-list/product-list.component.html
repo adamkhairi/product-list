@@ -1,0 +1,51 @@
+@if (isLoading) {
+  <mat-spinner style="margin: 20px auto"></mat-spinner>
+
+} @else if (errorMessage) {
+  <div style="color: red; text-align: center">
+    {{ errorMessage }}
+  </div>
+} @else {
+  <div>
+    <div style="padding: 20px">
+      <mat-form-field appearance="fill" style="margin-right: 20px">
+        <mat-label>Search by name</mat-label>
+        <input
+          matInput
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="filterProducts()"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Sort</mat-label>
+        <mat-select [(ngModel)]="sortOrder" (ngModelChange)="sortProducts()">
+          <mat-option value="asc">A-Z</mat-option>
+          <mat-option value="desc">Z-A</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    @if (filteredProducts.length > 0) {
+      <div style="display: flex; flex-wrap: wrap; padding: 20px">
+        <div *ngFor="let product of filteredProducts">
+          <mat-card style="width: 200px; margin: 10px">
+            <img
+              mat-card-image
+              [src]="product.thumbnail"
+              [alt]="product.title"
+              style="height: 150px; object-fit: cover"
+            />
+            <mat-card-title style="font-size: 16px">
+              {{ product.title }}
+            </mat-card-title>
+            <mat-card-content>
+              <p>Price: {{ product.price | currency }}</p>
+              <p>Rating: {{ product.rating }}/5</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    } @else {
+      <p style="text-align: center">No products found.</p>
+    }
+  </div>
+}
